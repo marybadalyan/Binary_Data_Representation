@@ -75,27 +75,20 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
       
     - name: Run Executable
-      working-directory: ${{ steps.strings.outputs.build-output-dir }}
       shell: bash
       run: |
-        # Set executable name based on OS
-        executable="Binary_Data_Representation"  # Start with base executable name
-        
+        # Determine executable name and path based on OS
         if [ "$RUNNER_OS" == "Windows" ]; then
-          executable="Binary_Data_Representation.exe"  # Add .exe for Windows
-          # On Windows, we should ensure that we run in the correct directory
-          executable_path="${{ github.workspace }}\\build\\${{ matrix.build_type }}\\$executable"  # Absolute path for Windows
+          exe_path="${{ steps.strings.outputs.build-output-dir }}/${{ matrix.build_type }}/Binary_Data_Representation.exe"
         else
-          executable_path="${{ github.workspace }}/build/$executable"  # Absolute path for Linux/macOS
+          exe_path="${{ steps.strings.outputs.build-output-dir }}/Binary_Data_Representation"
         fi
-        
-        # Check if the file exists before trying to run it
-        echo "Checking if executable exists: $executable_path"
-        if [ -f "$executable_path" ]; then
+    
+        echo "Checking if executable exists: $exe_path"
+        if [ -f "$exe_path" ]; then
           echo "Executable found, running it"
-          # Run executable based on the platform
-          "$executable_path" 
+          "$exe_path"
         else
-          echo "Executable not found: $executable_path"
-          exit 1  # Fail if the executable isn't found
+          echo "Executable not found: $exe_path"
+          exit 1
         fi
