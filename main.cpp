@@ -108,5 +108,7 @@ int main(){
     std::cout << "Power of 2: " << (isPowerOfTwo(16) ? "true" : "false") << std::endl; // 16 is a power of 2
     std::cout << "Power of 2: " << (isPowerOfTwo(18) ? "true" : "false") << std::endl; // 18 is not a power of 2
 
+
+    std::cout << "Memory Access: " << (MemoryAccess() ? "true" : "false") << std::endl; 
     
 }
